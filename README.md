@@ -33,6 +33,10 @@ Our interactive approach facilitates efficient knowledge acquisition, fostering 
 ## Frontend
 Our application comprises several pages, each with unique functionalities:
 
+### Login Page
+![Login page wireframe](./readme-imgs/login-page.png)
+This is our login page, there're many like it, but this one is ours!
+
 ### Home Page
 ![Home page wireframe](./readme-imgs/home-page.png)
 This page serves as the user's dashboard, showcasing the courses they have created, along with recommendations for public courses created by others. Users can search for courses in their library and in the public domain, categorized by topic through semantic search (We’ll talk more about this later but processed user materials are stored in a vector database). 
@@ -78,5 +82,7 @@ The vector database stores embeddings allowing to perform vector operations (suc
 The user data database stores all non-vector user data, raw files of handouts/textbooks/lecture recordings and user interactions with the application, it also records state data e.g. whereas uploaded materials are made public or kept private by the user. The user data database will be a Postgresql server (hosted via ngrok). 
 
 Error states of the application will be the standard HTTP request error states i.e. 4xx for frontend failures; 5xx for backend/database/OpenAI API failures. The service will try to utilize asynchronous requests and LLM agent concurrency to try to accommodate said error states (e.g. if a Layout Parser agent fails, encoder-decoder/summarizing/labeling/key term agents will proceed with the lecture summary without providing a handout one) 
+**Specification for phase 2 assignment feedback:**
+If a user tries to upload an unsupported filetype they will get a standard error 400 bad request, with a little pop-up bubble message saying "Unsupported filetype. Please upload your materials in one of the following filetypes:.wav, .mp4a, .mp3, .mp4, .avi, .pdf, .doc, .txt"
 
 The backend will utilize Python TensorFlow and Llangchain, the frontend will utilize the NextJS framework and will be hosted on free-tier Vercel. 
