@@ -58,3 +58,39 @@
     - **Study View:** Interacts with each study card one by one. The user answers the prompt or question and clicks the "See Result" button to get feedback. 
 
 ## Back-End
+
+### Data Processing Backend
+1. The submissions API should accept multiple file types: 
+    - Videos: ".mp4", ".mkv", ".avi", ".flv", ".mov", ".wmv".
+    - Audios: ".mp3", ".mp4a", ".m4p", ".raw", ".wav".
+    - Docs: ".pdf", ".docx", ".rtf", ".txt".
+2. If an unsupported filetype is submitted, the API should reject the request with a 415 status code and a message about supported file types.
+3. If there's an issue reading any of the submitted files, the API should reject the request with a 400 status code and a message about the files being unreadable.
+4. The file conversions API should extract audio from submitted video files and convert it to ".mp3".
+5. The transcription API should extract text from audio files and save it as a ".txt" file, utilizing a locally-hosted Whisper model.
+6. The backend should be capable of initializing a Chroma Vector database and a PostgreSQL user database, and storing and retrieving data from them.
+7. It should store the submitted video, audio, and text files in the PostgreSQL user database.
+
+### LLM API
+1. It should format inputs for LLM agents tiktoken and OpenAI documentation and format outputs from the vector database for display on the front-end.
+2. Upon accepting outputs from LLM agents, it should embed them using the embedder agent and store the embeddings in the Chroma vector database.
+3. It should retrieve data from the Chroma vector database, convert it into text via the LLM embedder agent, and format it for display on the frontend.
+4. It should submit requested text, audio, and video data to the frontend upon request.
+
+### LLM Agents
+1. The LLM labeling agent should map provided texts by tagging text chunks.
+2. The LLM table of contents agent should form a table of contents for provided texts using tag maps and text chunks.
+3. The LLM summarizing agent should summarize provided text chunks using a provided table of contents for context.
+4. The LLM key term agent should extract key terms from provided text chunks, using summaries for context.
+5. The LLM study card agent should compile term-definition pairs using provided key terms and summaries for context.
+6. The embedder LLM agent should vectorize provided text tokens into a vector database-compatible format.
+7. LLM agents should accept their according inputs from the data processing backend and submit their according outputs to the data processing backend.
+
+### Chroma Vector Database
+1. It should be able to create, edit, and delete tables with provided dimensions and meta-tags.
+2. It should store and retrieve embeddings using semantic search and meta-tag search.
+
+### User Data Database
+1. It should be able to create, edit, and delete tables with provided fields.
+2. It should store raw video, audio, text documents, and other non-vectorized data along with meta-tags from the vector database.
+3. It should retrieve the stored files via queries using meta-tags.
