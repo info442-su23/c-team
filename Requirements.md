@@ -6,9 +6,7 @@
 1. Contains a scrollable navigation sidebar for the user-created courses.
 2. Features a pop-up menu for each of the courses, allowing direct access to any lecture subdirectory or course material that was previously uploaded.
 3. Offers a "Create New Course" button.
-4. Includes a "Logout" button.
 5. Provides a "Go Home" button.
-6. Shows an "Account Settings" button.
 
 ### Home Page (AB)
 1. When the user is logged in, the page displays highlights of the user's created courses.
