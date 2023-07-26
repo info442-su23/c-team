@@ -1,4 +1,4 @@
-from myapp import create_app
+from clined import create_app
 
 app = create_app()
 

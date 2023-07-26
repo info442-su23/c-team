@@ -1,5 +1,5 @@
 from flask import Flask
-from myapp.api.uploads import files_blueprint
+from clined.api.uploads import files_blueprint
 from flask_uploads import UploadSet, configure_uploads, AllExcept, patch_request_class
 
 def create_app():
