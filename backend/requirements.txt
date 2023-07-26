@@ -1,0 +1,5 @@
+aiohttp==3.8.4
+boto3==1.26.141
+botocore==1.29.141
+asyncio==3.4.3
+pyjwt==1.7.1
