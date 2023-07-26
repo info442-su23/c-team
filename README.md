@@ -5,10 +5,8 @@
 ClinEd
 
 ## Members
-
-- Abiy M Abahoy - developer
 - Leo Ren - developer 
-- Daniel Meilech - PM 
+- Daniel Meilech - PM, developer 
 - Easha Kaur Dhillon - Prod 
 
 ## Mission statement 
