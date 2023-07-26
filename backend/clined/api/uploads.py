@@ -1,20 +1,48 @@
-from flask import Blueprint, request
-from flask_uploads import UploadSet
+from flask import current_app, request, abort
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from werkzeug.utils import secure_filename
+from . import bp
+import os
 
-files_blueprint = Blueprint('files', __name__)
-files = UploadSet('files')
+class UploadForm(FlaskForm):
+    file = FileField(validators=[
+        FileRequired(),
+    ])
 
-@files_blueprint.route('/upload-video', methods=['POST'])
+def allowed_file(filename, allowed_extensions):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+@bp.route('/upload-video', methods=['GET', 'POST'])
 def upload_video():
-    filename = files.save(request.files['video'], folder='video')
-    return 'File saved as ' + filename
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        if allowed_file(file.filename, current_app.config['ALLOWED_VIDEO_EXTENSIONS']):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(bp.root_path, '..', 'uploads', 'video', filename))
+            return 'File saved as ' + filename
+    abort(400, 'Invalid file type')
 
-@files_blueprint.route('/upload-audio', methods=['POST'])
+@bp.route('/upload-audio', methods=['GET', 'POST'])
 def upload_audio():
-    filename = files.save(request.files['audio'], folder='audio')
-    return 'File saved as ' + filename
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        if allowed_file(file.filename, current_app.config['ALLOWED_AUDIO_EXTENSIONS']):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(bp.root_path, '..', 'uploads', 'audio', filename))
+            return 'File saved as ' + filename
+    abort(400, 'Invalid file type')
 
-@files_blueprint.route('/upload-text', methods=['POST'])
+@bp.route('/upload-text', methods=['GET', 'POST'])
 def upload_text():
-    filename = files.save(request.files['text'], folder='transcripts')
-    return 'File saved as ' + filename
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        if allowed_file(file.filename, current_app.config['ALLOWED_TEXT_EXTENSIONS']):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(bp.root_path, '..', 'uploads', 'transcripts', filename))
+            return 'File saved as ' + filename
+    abort(400, 'Invalid file type')
