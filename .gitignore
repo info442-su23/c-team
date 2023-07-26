@@ -16,7 +16,7 @@ video/*
 transcripts/*
 !transcripts/.gitkeep
 # Virtualenv
-lectern-env
+clined-env
 
 # C extensions
 *.so
