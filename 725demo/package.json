@@ -1,11 +1,17 @@
 {
-  "name": "725demo",
+  "name": "clined",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "The frontend for the clined, self-education tool for medical students application",
+  "main": "src/main.js",
+  "homepage": "http://JustDust60.github.io/c-team",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
-  },
+    "build": "vue-cli-service build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+}
+,
   "dependencies": {
     "core-js": "^3.8.3",
     "echarts": "^5.4.3",
@@ -19,6 +25,7 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "gh-pages": "^5.0.0",
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.14"
