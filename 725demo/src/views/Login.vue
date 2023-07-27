@@ -1,13 +1,5 @@
-<!--
- * @Author: Corn
- * @Date: 2023-07-25 17:40:28
- * @LastEditors: corn
- * @LastEditTime: 2023-07-26 09:27:35
- * @FilePath: \725demo\src\views\Login.vue
- * @Description: 
- * 
- * Copyright (c) 2023 by corn, All Rights Reserved. 
--->
+
+
 <template>
   <div class="wrapper flex-center" style="background-color: #eef3fa;">
     <div class="login-box">

@@ -1,13 +1,4 @@
-<!--
- * @Author: Corn
- * @Date: 2023-07-25 17:00:49
- * @LastEditors: corn
- * @LastEditTime: 2023-07-26 15:13:29
- * @FilePath: \725demo\src\components\Aside.vue
- * @Description: 
- * 
- * Copyright (c) 2023 by corn, All Rights Reserved. 
--->
+
 <template>
   <div class="menu">
     <div class="head-img">

@@ -131,19 +131,9 @@ export default {
             data: [100, 170, 120, 50, 30, 90, 110],
             type: 'bar',
             barWidth: 12,
-            // itemStyle: {
-            //   color: '#b8d5e5'
-            // },
             itemStyle: {
-              color: function (params) {
-                console.log(params);
-                if (params.dataIndex === 6) {
-                  return 'red'
-                } else {
-                  return '#b8d5e5'
-                }
-              }
-            },
+              color: '#b8d5e5'
+            }
           },
           {
             data: [120, 200, 150, 80, 70, 110, 130],

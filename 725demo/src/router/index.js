@@ -1,13 +1,4 @@
-/*
- * @Author: Corn
- * @Date: 2023-07-25 16:06:18
- * @LastEditors: corn
- * @LastEditTime: 2023-07-26 14:46:40
- * @FilePath: \725demo\src\router\index.js
- * @Description: 
- * 
- * Copyright (c) 2023 by corn, All Rights Reserved. 
- */
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from "@/layout/Layout";
@@ -49,11 +40,6 @@ const routes = [
     name: 'Login',
     component: () => import("@/views/Login")
   },
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView
-  // },
 ]
 
 const router = new VueRouter({
