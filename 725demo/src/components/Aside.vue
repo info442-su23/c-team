@@ -23,11 +23,11 @@
 
       <el-menu-item index="/listview">
         <i class="el-icon-menu"></i>
-        <span slot="title">List View</span>
+        <span slot="title">Course View</span>
       </el-menu-item>
       <el-menu-item index="/listview2">
         <i class="el-icon-menu"></i>
-        <span slot="title">List View2</span>
+        <span slot="title">Lecture View</span>
       </el-menu-item>
       <el-menu-item index="/study">
         <i class="el-icon-chat-round"></i>
