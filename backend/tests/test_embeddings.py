@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 sys.path.append(os.path.abspath(os.getenv("PYTHONPATH")))
-from lectern.embeddings import *
+from src.embeddings import *
 
 class TestLangChain(unittest.TestCase):
     def setUp(self):

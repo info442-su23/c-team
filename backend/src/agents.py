@@ -4,8 +4,10 @@ from langchain import LLMChain
 from langchain.memory import ConversationBufferMemory
 import os
 from dotenv import load_dotenv
-from prompts import label_chat_prompt, table_contents_chat_prompt, summary_chat_prompt
-
+# main imports
+#from prompts import label_chat_prompt, table_contents_chat_prompt, summary_chat_prompt
+# test imports
+from src.prompts import label_chat_prompt, table_contents_chat_prompt, summary_chat_prompt
 # Load environment variables from the .env file
 load_dotenv('../.env')
 
