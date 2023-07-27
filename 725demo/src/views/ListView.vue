@@ -2,12 +2,31 @@
   <div class="container">
     <div class="box left-box">
       <div class="image-container">
-        <img src="../assets/listview1.png" alt="">
+        <input 
+          type="file" 
+          accept="image/*" 
+          @change="handleFileUpload" 
+          ref="fileInput"
+          style="display: none" 
+        />
+        <img 
+          :src="imageSrc" 
+          alt="" 
+          @click="editMode && $refs.fileInput.click()" 
+        />
       </div>
       <div class="content-container">
-        <h3>Medical 101</h3>
-        <h4>Course Description</h4>
-        <p class="description-text">in this course, you will learn the foundations of medical sciences. We will cover topics such as anatomy, medical terminology, and clinical skills. This course is designed to provide you with a solid understanding of the medical field.</p>
+        <h3 v-if="!editMode">{{ title }}</h3>
+        <input v-else type="text" v-model="title" />
+
+        <h4 v-if="!editMode">{{ subtitle }}</h4>
+        <input v-else type="text" v-model="subtitle" />
+
+        <p v-if="!editMode" class="description-text">{{ description }}</p>
+        <textarea v-else class="description-text" v-model="description"></textarea>
+
+        <button v-if="!editMode" class="edit-button" @click="editMode = true">✎</button>
+        <button v-else class="save-button" @click="editMode = false">✔️</button>
       </div>
     </div>
     <div class="box right-box">
@@ -17,7 +36,7 @@
           <div>{{item}}</div>
           <div class="arrow-right"> > </div>
         </div>
-        <div class="btn">Enroll now</div>
+        <div class="btn">Add new lecture</div>
       </div>
     </div>
   </div>
@@ -27,9 +46,22 @@
 export default {
   data() {
     return {
-      arr: ['Study Guide','Text Books','Lecture 1','Lecture 2','Lecture 3']
+      title: 'Medical 101',
+      subtitle: 'Course Description',
+      description: 'in this course, you will learn the foundations of medical sciences. We will cover topics such as anatomy, medical terminology, and clinical skills. This course is designed to provide you with a solid understanding of the medical field.',
+      arr: ['Lecture 1','Lecture 2','Lecture 3'],
+      editMode: false,
+      imageSrc: require('@/assets/listview1.png')
     }
   },
+  methods: {
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.imageSrc = URL.createObjectURL(file);
+      }
+    }
+  }
 }
 </script>
 
@@ -53,6 +85,7 @@ export default {
   img {
     width: 100%;
     height: auto;
+    cursor: pointer;
   }
 }
 
@@ -63,6 +96,23 @@ export default {
     margin: 0; 
     line-height: 25px;
     word-wrap: break-word;
+  }
+
+  .edit-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .save-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: auto;
+    color: green;
   }
 }
 

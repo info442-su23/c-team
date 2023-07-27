@@ -2,18 +2,34 @@
   <div class="container">
     <div class="box left-box">
       <div class="image-container">
-        <img src="../assets/listview2.png" alt="">
+        <input 
+          type="file" 
+          accept="image/*" 
+          @change="handleFileUpload" 
+          ref="fileInput"
+          style="display: none" 
+        />
+        <img 
+          :src="imageSrc" 
+          alt="" 
+          @click="editMode && $refs.fileInput.click()" 
+        />
       </div>
       <div class="content-container">
-        <h3>Lecturel</h3>
-        <h4>Full Lecture Transcript</h4>
-        <p class="description-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisiut aliquip ex ea commodo consequat, Duis gute irure dolor inreprehenderit in voluptate velit
-          esse cillum dolore eu fugiat nullopariatur. Excepteur sint occaecat cupidatat non proident, sunt inculpa qui
-          officia deserunt mollit anim id est laborum.</p>
+        <h3 v-if="!editMode">{{ title }}</h3>
+        <input v-else type="text" v-model="title" />
+
+        <h4 v-if="!editMode">{{ subtitle }}</h4>
+        <input v-else type="text" v-model="subtitle" />
+
+        <p v-if="!editMode" class="description-text">{{ description }}</p>
+        <textarea v-else class="description-text" v-model="description"></textarea>
+
+        <button v-if="!editMode" class="edit-button" @click="editMode = true">✎</button>
+        <button v-else class="save-button" @click="editMode = false">✔️</button>
+
         <div class="right-box-item">
-          <div>Lecture Handout</div>
+          <button class="material-button" :disabled="!materialsUploaded">Lecture Handout</button>
           <div class="arrow-right"> > </div>
         </div>
       </div>
@@ -22,10 +38,10 @@
       <div class="content-container">
         <h3>Lecture Materials</h3>
         <div class="right-box-item" v-for="(item, index) in arr" :key="index">
-          <div>{{ item }}</div>
+          <button class="material-button" :disabled="!materialsUploaded">{{ item }}</button>
           <div class="arrow-right"> > </div>
         </div>
-        <div class="btn">Enroll now</div>
+        <div class="btn">Upload new material</div>
       </div>
     </div>
   </div>
@@ -35,9 +51,23 @@
 export default {
   data() {
     return {
-      arr: ['Lecture Summary', 'Handout Summary', 'Study Cards']
+      title: 'Lecturel',
+      subtitle: 'Full Lecture Transcript',
+      description: 'Lorem ipsum dolor sit amet...',
+      arr: ['Lecture Summary', 'Handout Summary', 'Study Cards'],
+      materialsUploaded: false,
+      editMode: false,
+      imageSrc: require('@/assets/listview2.png')
     }
   },
+  methods: {
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.imageSrc = URL.createObjectURL(file);
+      }
+    }
+  }
 }
 </script>
 
@@ -61,6 +91,7 @@ export default {
   img {
     width: 100%;
     height: auto;
+    cursor: pointer;
   }
 }
 
@@ -71,6 +102,23 @@ export default {
     margin: 0; 
     line-height: 25px;
     word-wrap: break-word;
+  }
+
+  .edit-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .save-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: auto;
+    color: green;
   }
 }
 
@@ -85,6 +133,20 @@ export default {
     margin-right: 20px;
     cursor: pointer;
   }
+}
+
+.material-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.material-button:disabled {
+  cursor: not-allowed;
+  color: #ccc;
 }
 
 .right-box {
