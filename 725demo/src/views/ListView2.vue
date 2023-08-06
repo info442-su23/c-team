@@ -2,18 +2,8 @@
   <div class="container">
     <div class="box left-box">
       <div class="image-container">
-        <input 
-          type="file" 
-          accept="image/*" 
-          @change="handleFileUpload" 
-          ref="fileInput"
-          style="display: none" 
-        />
-        <img 
-          :src="imageSrc" 
-          alt="" 
-          @click="editMode && $refs.fileInput.click()" 
-        />
+        <input type="file" accept="image/*" @change="handleFileUpload" ref="fileInput" style="display: none" />
+        <img :src="imageSrc" alt="" @click="editMode && $refs.fileInput.click()" />
       </div>
       <div class="content-container">
         <h3 v-if="!editMode">{{ title }}</h3>
@@ -41,9 +31,15 @@
           <button class="material-button" :disabled="!materialsUploaded">{{ item }}</button>
           <div class="arrow-right"> > </div>
         </div>
-        <div class="btn">Upload new material</div>
+        <div class="btn" @click="dialogVisible = true">Upload new material</div>
       </div>
     </div>
+    <el-dialog title="Upload" :visible.sync="dialogVisible" width="40%">
+      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">Drag files here，or <em>click</em></div>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -57,7 +53,8 @@ export default {
       arr: ['Lecture Summary', 'Handout Summary', 'Study Cards'],
       materialsUploaded: false,
       editMode: false,
-      imageSrc: require('@/assets/listview2.png')
+      imageSrc: require('@/assets/listview2.png'),
+      dialogVisible:false,
     }
   },
   methods: {
@@ -75,16 +72,16 @@ export default {
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; 
+  align-items: stretch;
   background: #ececec;
-  height: 100vh; 
+  height: 100vh;
 }
 
 .box {
   flex: 1;
   background: #fff;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .image-container {
@@ -99,7 +96,7 @@ export default {
   padding: 20px;
 
   .description-text {
-    margin: 0; 
+    margin: 0;
     line-height: 25px;
     word-wrap: break-word;
   }
@@ -129,6 +126,7 @@ export default {
   margin: 10px 0;
   padding: 20px;
   align-items: center;
+
   .arrow-right {
     margin-right: 20px;
     cursor: pointer;
