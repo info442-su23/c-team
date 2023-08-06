@@ -2,6 +2,7 @@ from flask import current_app, request, abort
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
+from flask_wtf.csrf import generate_csrf
 from . import bp
 import os
 
@@ -13,6 +14,11 @@ class UploadForm(FlaskForm):
 def allowed_file(filename, allowed_extensions):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+@bp.route('/csrf-token', methods=['GET'])
+def csrf_token():
+    token = generate_csrf()
+    return {'token': token}
 
 @bp.route('/upload-video', methods=['GET', 'POST'])
 def upload_video():
@@ -34,6 +40,7 @@ def upload_audio():
             filename = secure_filename(file.filename)
             file.save(os.path.join(bp.root_path, '..', 'uploads', 'audio', filename))
             return 'File saved as ' + filename
+    else:
     abort(400, 'Invalid file type')
 
 @bp.route('/upload-text', methods=['GET', 'POST'])

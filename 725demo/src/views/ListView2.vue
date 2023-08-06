@@ -41,7 +41,16 @@
           <button class="material-button" :disabled="!materialsUploaded">{{ item }}</button>
           <div class="arrow-right"> > </div>
         </div>
-        <div class="btn">Upload new material</div>
+        <label class="btn">
+          <input 
+            type="file" 
+            accept=".mp4,.mkv,.avi,.flv,.mov,.wmv,.mp3,.mp4a,.m4p,.raw,.wav,.pdf,.docx,.rtf,.txt" 
+            style="display: none" 
+            @change="handleMaterialUpload"
+          />
+          {{ selectedFileName || 'Upload new material' }}
+        </label>
+        <button v-if="selectedFileName" class="btn" @click="submitFile">Submit</button>
       </div>
     </div>
   </div>
@@ -57,7 +66,23 @@ export default {
       arr: ['Lecture Summary', 'Handout Summary', 'Study Cards'],
       materialsUploaded: false,
       editMode: false,
-      imageSrc: require('@/assets/listview2.png')
+      imageSrc: require('@/assets/listview2.png'),
+      selectedFileName: null,
+      selectedFile: null, // To store the selected file
+      csrfToken: null // To store the CSRF token
+    }
+  },
+  async created() {
+    try {
+      const baseUrl = process.env.VUE_APP_FILEUPLOAD_URL;
+      const response = await fetch(baseUrl + '/csrf-token', {
+        method: 'GET',
+      });
+      const data = await response.json();
+      console.log(data.token)
+      this.csrfToken = data.token;
+    } catch (error) {
+      console.error('Error fetching CSRF token:', error);
     }
   },
   methods: {
@@ -65,6 +90,52 @@ export default {
       const file = event.target.files[0];
       if (file) {
         this.imageSrc = URL.createObjectURL(file);
+      }
+    },
+    handleMaterialUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.selectedFileName = file.name;
+        this.selectedFile = file;
+      }
+    },
+    async submitFile() {
+      const baseUrl = process.env.VUE_APP_FILEUPLOAD_URL;
+      let endpoint = '';
+
+      if (this.selectedFileName) {
+        const extension = this.selectedFileName.split('.').pop().toLowerCase();
+        if (['mp4', 'mkv', 'avi', 'flv', 'mov', 'wmv'].includes(extension)) {
+          endpoint = '/upload-video';
+        } else if (['mp3', 'mp4a', 'm4p', 'raw', 'wav'].includes(extension)) {
+          endpoint = '/upload-audio';
+        } else if (['pdf', 'docx', 'rtf', 'txt'].includes(extension)) {
+          endpoint = '/upload-text';
+        } else {
+          alert('Invalid file type');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', this.selectedFile);
+        formData.append('csrf_token', this.csrfToken);  // Add this line
+
+        try {
+          console.log(this.csrfToken)
+          const response = await fetch(baseUrl + endpoint, {
+            method: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': this.csrfToken
+            },
+            body: formData,
+          });
+          const text = await response.text();
+          console.log(text);
+          alert('File uploaded successfully');
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while uploading the file' + error.toString());
+        }
       }
     }
   }
