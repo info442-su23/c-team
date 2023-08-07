@@ -57,11 +57,19 @@
           <i class="el-icon-edit"></i>
           <i class="el-icon-star-on"></i>
         </div>
-        <div class="text flex-center">
-          1.Wuchereria bancrofti
+        <div style="height: 200px;">
+          <el-carousel indicator-position="none" arrow="never" :autoplay="false" ref="carousel1">
+            <el-carousel-item v-for="item in 26" :key="item">
+              <div class="text flex-center">
+                {{ item }}.Wuchereria bancrofti
+              </div>
+            </el-carousel-item>
+          </el-carousel>
         </div>
         <div class="answer-box">
-          <div class="answer-item" v-for="(item, index) in answerArr" :key="index">{{ item }}</div>
+          <div :class="['answer-item', { 'correct': correctValue == item.value, 'wrong': wrongValue == item.value }]"
+            v-for="(item, index) in answerArr" :key="index" @click="handleAnswer(item)">{{ item.label }}
+          </div>
         </div>
       </div>
     </div>
@@ -75,7 +83,10 @@ export default {
       arr: [{ name: 'Card View', icon: 'el-icon-menu' }, { name: 'List View', icon: 'el-icon-s-operation' }, { name: 'Study View', icon: 'el-icon-document' }],
       tabIndex: 2,
       curIndex: 1,
-      answerArr: ['a. quis nostrud exercitation', 'b. ullamco laboris nisi ut', 'c. irure dolor in reprehende', 'd. voluptate velit esse cillum']
+      answerArr: [{ label: 'a. quis nostrud exercitation', value: 'A' }, { label: 'b. ullamco laboris nisi ut', value: 'B' },
+      { label: 'c. irure dolor in reprehende', value: 'C' }, { label: 'd. voluptate velit esse cillum', value: 'D' }],
+      correctValue: '',
+      wrongValue: ''
     }
   },
   methods: {
@@ -90,7 +101,25 @@ export default {
     },
     handleChange(index) {
       this.curIndex = index + 1
+    },
+    handleAnswer(item) {
+      if (item.value == 'A' || item.value == 'C') {
+        this.$message.success('Correct answer!')
+        this.correctValue = item.value
+        this.wrongValue = ''
+        setTimeout(() => {
+          this.$refs.carousel1.next()
+          this.correctValue = ''
+        }, 2000)
+      } else {
+        this.$message.error('Wrong answer! The correct is A')
+        this.wrongValue = item.value
+        // setTimeout(()=>{
+        //   this.wrongValue =''
+        // },1000)
+      }
     }
+
   },
 
 }
@@ -262,6 +291,14 @@ export default {
         border-radius: 20px;
         font-size: 30px;
         cursor: pointer;
+      }
+
+      .correct {
+        background: #0ee291;
+      }
+
+      .wrong {
+        background: red;
       }
     }
   }
