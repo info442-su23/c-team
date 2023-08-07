@@ -6,7 +6,7 @@
       <span>ClinEd</span>
     </div>
     <el-menu class="el-menu-vertical-demo" :default-active="$route.path" router text-color="#fff"
-      background-color="#3d85ad" active-text-color="#ffd04b">
+      background-color="#3d85ad" active-text-color="#ffd04b" style="border-right: 1px solid transparent;">
       <el-menu-item index="/home">
         <i class="el-icon-s-home"></i>
         <span slot="title">Home</span>
@@ -62,7 +62,7 @@ export default {
 
 <style lang="less"  scoped>
 .el-menu-vertical-demo {
-  width: 260px;
+  width: 258px;
   height: calc(100vh - 160px);
 }
 

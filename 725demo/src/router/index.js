@@ -33,6 +33,11 @@ const routes = [
         name: 'Study',
         component: () => import("@/views/Study"),
       },
+      {
+        path: '/treepage',
+        name: 'TreePage',
+        component: () => import("@/views/TreePage"),
+      },
     ]
   },
   {

@@ -32,7 +32,7 @@
     <div class="box right-box">
       <div class="content-container">
         <h3>Course Overview</h3>
-        <div class="right-box-item" v-for="(item,index) in arr" :key="index">
+        <div class="right-box-item" v-for="(item,index) in arr" :key="index" @click="goOtherPage(item)">
           <div>{{item}}</div>
           <div class="arrow-right"> > </div>
         </div>
@@ -60,6 +60,12 @@ export default {
       if (file) {
         this.imageSrc = URL.createObjectURL(file);
       }
+    },
+    goOtherPage(item){
+      this.$router.push({
+        path: '/treepage',
+        query:{name:item}
+      });
     }
   }
 }
