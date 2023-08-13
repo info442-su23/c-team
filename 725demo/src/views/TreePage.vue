@@ -2,10 +2,11 @@
 <template>
   <div class="container">
     <div class="left-tree">
-      <div style="color: #fff;text-align: left;padding-left: 10px;">
+      <div style="color: #fff;text-align: left;padding-left: 10px;height: 70px;">
         <h3>Edit Table of Contents:</h3>
         <input type="text"
           style="border: 1px solid #534e5c;background: transparent;height: 30px;outline: none;color: #fff;">
+          <el-button  round style="float: right; margin-right: 15px;" @click="goHome">Home</el-button>
       </div>
       <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
     </div>
@@ -86,6 +87,11 @@ export default {
   methods: {
     handleNodeClick(data) {
       console.log(data);
+    },
+    goHome(){
+      this.$router.push({
+        path: '/'
+      });
     }
   },
 

@@ -31,15 +31,31 @@
           <button class="material-button" :disabled="!materialsUploaded">{{ item }}</button>
           <div class="arrow-right"> > </div>
         </div>
-        <div class="btn" @click="dialogVisible = true">Upload new material</div>
+        <div class="btn" @click="openDialog">Upload new material</div>
+        <input type="file" id="upload" value="" name="saveFile" multiple style="display: none;"
+          @change="tirggerFile($event)" />
       </div>
     </div>
-    <el-dialog title="Upload" :visible.sync="dialogVisible" width="40%">
-      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">Drag files here，or <em>click</em></div>
-      </el-upload>
-    </el-dialog>
+    <div v-show="dialogVisible" class="modal">
+      <div class="header">
+        <span>Uploading {{ fileArr.length }} item</span>
+        <i class="el-icon-close" @click="dialogVisible = false"></i>
+      </div>
+      <div class="process">
+        <span>Finishing upload...</span>
+        <span style="cursor: pointer;color:royalblue" @click="handleCancel">Cancel</span>
+      </div>
+      <div class="items">
+        <div v-for="(item, index) in fileArr" :key="index" class="upload-item">
+          <span>
+            <i class="el-icon-picture"></i>
+            <span class="file-name">{{ item.name }}</span>
+          </span>
+          <i class="el-icon-loading"></i>
+        </div>
+      </div>
+
+    </div>
   </div>
 </template>
 
@@ -54,7 +70,8 @@ export default {
       materialsUploaded: false,
       editMode: false,
       imageSrc: require('@/assets/listview2.png'),
-      dialogVisible:false,
+      dialogVisible: false,
+      fileArr: [{ name: '16898432.png' }, { name: '903242232.jpg' }]
     }
   },
   methods: {
@@ -63,6 +80,17 @@ export default {
       if (file) {
         this.imageSrc = URL.createObjectURL(file);
       }
+    },
+    openDialog() {
+      document.getElementById('upload').click()
+    },
+    tirggerFile(event) {
+      this.fileArr = event.target.files
+      if (this.fileArr.length) {
+        this.dialogVisible = true
+      }
+    },
+    handleCancel() {
     }
   }
 }
@@ -75,6 +103,7 @@ export default {
   align-items: stretch;
   background: #ececec;
   height: 100vh;
+  position: relative;
 }
 
 .box {
@@ -161,5 +190,53 @@ export default {
   text-align: center;
   font-weight: bold;
   cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid #476b9a;
+  width: 350px;
+  min-height: 250px;
+  border-radius: 15px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .process {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    background: #f0f2fe;
+    padding: 8px 15px;
+  }
+
+  .items {
+    margin-top: 10px;
+
+    .file-name {
+      width: 200px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inline-block;
+      text-align: left;
+      padding-left: 5px;
+      vertical-align: middle;
+    }
+
+    .upload-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 15px;
+    }
+
+  }
 }
 </style>

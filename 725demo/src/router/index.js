@@ -32,12 +32,7 @@ const routes = [
         path: '/study',
         name: 'Study',
         component: () => import("@/views/Study"),
-      },
-      {
-        path: '/treepage',
-        name: 'TreePage',
-        component: () => import("@/views/TreePage"),
-      },
+      }
     ]
   },
   {
@@ -45,6 +40,11 @@ const routes = [
     name: 'Login',
     component: () => import("@/views/Login")
   },
+  {
+    path: '/treepage',
+    name: 'TreePage',
+    component: () => import("@/views/TreePage"),
+  }
 ]
 
 const router = new VueRouter({
